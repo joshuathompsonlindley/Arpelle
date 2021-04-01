@@ -168,9 +168,14 @@ namespace Arpelle.CodeParser
 
         public void ParsePrimary()
         {
-            if (IsCurrentToken(TokenType.NumberValue))
+            if (IsCurrentToken(TokenType.NumberValue) || IsCurrentToken(TokenType.StringValue))
             {
                 CodeEmitter.Emit(CurrentToken.Text);
+                GetNextToken();
+            }
+            else if (IsCurrentToken(TokenType.True) || IsCurrentToken(TokenType.False))
+            {
+                CodeEmitter.Emit(CurrentToken.Text.ToLower());
                 GetNextToken();
             }
             else if (IsCurrentToken(TokenType.VariableIdentifer))

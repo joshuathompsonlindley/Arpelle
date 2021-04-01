@@ -9,12 +9,12 @@ namespace Arpelle.Language.Keywords
         public void Parse(Parser parser)
         {
             parser.GetNextToken();
-            
+
             if (parser.IsCurrentToken(TokenType.VariableIdentifer))
             {
                 if (parser.DeclaredVariables.ContainsKey(parser.CurrentToken.Text) && parser.DeclaredVariables.TryGetValue(parser.CurrentToken.Text, out VariableMetadata Metadata))
                 {
-                    parser.CodeEmitter.EmitLine("cin >> " + parser.CurrentToken.Text);
+                    parser.CodeEmitter.EmitLine("cin >> " + parser.CurrentToken.Text + ";");
                 }
                 else
                 {

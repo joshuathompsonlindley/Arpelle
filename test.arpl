@@ -1,18 +1,17 @@
-Set a As Number = 10
-Set b As Number = 2154
+Set a As Number = 0
+Set b As Number = 1
 Set hello As String = "Hello World"
+Set flag As Boolean = True
 
-If a == 10 Do
+If flag == True Do
     Printout hello
+    Set a = 1
+    Set b = 2
+    Input hello
 EndIf
 
-While b == 2154 Repeat
+While flag == True Repeat
     Printout hello
+    Printout a
+    Printout b
 EndWhile
-
-Label Test
-Printout a
-Printout b
-
-Goto Test
-

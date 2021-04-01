@@ -33,6 +33,9 @@ namespace Arpelle.Language
                 if (parser.DeclaredVariables.ContainsKey(VariableIdentifer))
                     throw new CodeParserException("Variable " + VariableIdentifer + " already exists.");
 
+                if (VariableIdentifer.ToLower() == "int" || VariableIdentifer.ToLower() == "string" || VariableIdentifer.ToLower() == "bool")
+                    throw new CodeParserException("A variable cannot be named " + VariableIdentifer + ".");
+
                 switch (VariableDatatype)
                 {
                     case "String":
@@ -72,7 +75,7 @@ namespace Arpelle.Language
                         if (!parser.IsCurrentToken(TokenType.True) && !parser.IsCurrentToken(TokenType.False))
                             throw new CodeParserException("Expected a boolean for variable: " + VariableIdentifer + " of type Number, but got: " + parser.CurrentToken.Type);
 
-                        parser.CodeEmitter.EmitLine("boolean " + VariableIdentifer + " = " + parser.CurrentToken.Text.ToLower() + ";");
+                        parser.CodeEmitter.EmitLine("bool " + VariableIdentifer + " = " + parser.CurrentToken.Text.ToLower() + ";");
 
                         meta = new VariableMetadata(){
                             Datatype = VariableDatatype,
@@ -92,7 +95,7 @@ namespace Arpelle.Language
                 parser.GetNextToken();
                 if (parser.IsCurrentToken(TokenType.VariableIdentifer))
                 {
-                    System.Console.Write("int");
+                    // Deal with expressions...
                 }
                 else
                 {
@@ -105,18 +108,30 @@ namespace Arpelle.Language
                                     throw new CodeParserException("Expected a string for variable: " + VariableIdentifer + " of type String, but got: " + parser.CurrentToken.Type);
 
                                 parser.CodeEmitter.EmitLine(VariableIdentifer + " = \"" + parser.CurrentToken.Text + "\";");
+                                Metadata.Value = parser.CurrentToken.Text;
+                                parser.DeclaredVariables[VariableIdentifer] = Metadata;
+                                parser.GetNextToken();
+
                                 break;
                             case "Number":
                                 if (!parser.IsCurrentToken(TokenType.NumberValue))
                                     throw new CodeParserException("Expected a number for variable: " + VariableIdentifer + " of type Number, but got: " + parser.CurrentToken.Type);
 
                                 parser.CodeEmitter.EmitLine(VariableIdentifer + " = " + parser.CurrentToken.Text + ";");
+                                Metadata.Value = parser.CurrentToken.Text;
+                                parser.DeclaredVariables[VariableIdentifer] = Metadata;
+                                parser.GetNextToken();
+
                                 break;
                             case "Boolean":
                                 if (!parser.IsCurrentToken(TokenType.True) || !parser.IsCurrentToken(TokenType.False))
                                     throw new CodeParserException("Expected a boolean for variable: " + VariableIdentifer + " of type Number, but got: " + parser.CurrentToken.Type);
 
                                 parser.CodeEmitter.EmitLine(VariableIdentifer + " = " + parser.CurrentToken.Text.ToLower() + ";");
+                                Metadata.Value = parser.CurrentToken.Text;
+                                parser.DeclaredVariables[VariableIdentifer] = Metadata;
+                                parser.GetNextToken();
+
                                 break;
                             default:
                                 throw new CodeParserException("Unknown data type " + Metadata.Datatype + ".");
