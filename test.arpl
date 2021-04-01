@@ -1,0 +1,18 @@
+Set a As Number = 10
+Set b As Number = 2154
+Set hello As String = "Hello World"
+
+If a == 10 Do
+    Printout hello
+EndIf
+
+While b == 2154 Repeat
+    Printout hello
+EndWhile
+
+Label Test
+Printout a
+Printout b
+
+Goto Test
+
