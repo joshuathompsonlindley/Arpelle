@@ -9,7 +9,6 @@ I'll add binaries to the Release tab when I feel the project is far enough along
 All you need is .NET 5 (SDK) and to run `dotnet build` in the root folder. The built file will be in the `bin/Debug/net5.0` folder.
 
 Command Line Usage:
-When output is not given, it'll default to `arplc_output` in the current directory.
 
 	arplc <input> [output]
 
