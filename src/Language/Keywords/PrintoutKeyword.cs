@@ -1,3 +1,9 @@
+/*
+    Arpelle
+    Copyright (c) 2021 Joshua Thompson-Lindley. All rights reserved.
+    Licensed under the MIT License. See LICENSE file in the project root for full license information.
+*/
+
 using Arpelle.CodeParser;
 using Arpelle.CompilerExceptions;
 using Arpelle.Tokens;
@@ -14,7 +20,6 @@ namespace Arpelle.Language.Keywords
             {
                 if (parser.DeclaredVariables.ContainsKey(parser.CurrentToken.Text) && parser.DeclaredVariables.TryGetValue(parser.CurrentToken.Text, out VariableMetadata Metadata))
                 {
-
                     if (Metadata.Datatype != "String" && Metadata.Datatype != "Number")
                         throw new CodeParserException("Tried to printout an unprintable variable.");
 
@@ -40,7 +45,7 @@ namespace Arpelle.Language.Keywords
             {
                 throw new CodeParserException("Tried to printout an unprintable variable.");
             }
-            
+
             parser.GetNextToken();
         }
     }

@@ -1,3 +1,9 @@
+/*
+    Arpelle
+    Copyright (c) 2021 Joshua Thompson-Lindley. All rights reserved.
+    Licensed under the MIT License. See LICENSE file in the project root for full license information.
+*/
+
 using Arpelle.CodeParser;
 using Arpelle.Tokens;
 
@@ -15,10 +21,10 @@ namespace Arpelle.Language.Keywords
             parser.ParseNewLine();
             parser.CodeEmitter.EmitLine("){");
 
-            while (!parser.IsCurrentToken(TokenType.EndWhile))
+            while (!parser.IsCurrentToken(TokenType.End))
                 parser.ParseStatement();
 
-            parser.MatchToken(TokenType.EndWhile);
+            parser.MatchToken(TokenType.End);
             parser.CodeEmitter.EmitLine("}");
             parser.GetNextToken();
         }

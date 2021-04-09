@@ -1,4 +1,10 @@
-﻿namespace Arpelle.Tokens
+﻿/*
+    Arpelle
+    Copyright (c) 2021 Joshua Thompson-Lindley. All rights reserved.
+    Licensed under the MIT License. See LICENSE file in the project root for full license information.
+*/
+
+namespace Arpelle.Tokens
 {
     // List of tokens in Arpelle.
     public enum TokenType
@@ -15,11 +21,11 @@
         Set = 105,                  // Set variable keyword
         As = 106,                   // Datatype assignment keyword
         If = 107,                   // Begin If keyword
-        Do = 108,                   // Do keyword
-        EndIf = 109,                // End If keyword   
+        Then = 108,                 // Do keyword
+        End = 109,                  // End If keyword
+        Else = 118,                // Else keywork
         While = 110,                // While loop keyword
         Repeat = 111,               // Repeat keyword
-        EndWhile = 112,             // End While loop keyword
         True = 113,                 // True boolean type
         False = 114,                // False boolean type
         Boolean = 115,              // Boolean datatype

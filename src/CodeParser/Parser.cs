@@ -1,5 +1,12 @@
+/*
+    Arpelle
+    Copyright (c) 2021 Joshua Thompson-Lindley. All rights reserved.
+    Licensed under the MIT License. See LICENSE file in the project root for full license information.
+*/
+
 using System;
 using System.Collections.Generic;
+
 using Arpelle.CompilerExceptions;
 using Arpelle.CodeEmitter;
 using Arpelle.LexicalAnalyser;
@@ -64,6 +71,14 @@ namespace Arpelle.CodeParser
                    IsCurrentToken(TokenType.EqualTo);
         }
 
+        public bool IsTokenArithmeticOperator()
+        {
+            return IsCurrentToken(TokenType.Plus) ||
+                   IsCurrentToken(TokenType.Minus) ||
+                   IsCurrentToken(TokenType.Slash) ||
+                   IsCurrentToken(TokenType.Asterisk);
+        }
+
         public void StartParsing()
         {
             CodeEmitter.EmitHeader("#include <iostream>");
@@ -88,28 +103,46 @@ namespace Arpelle.CodeParser
 
         public void ParseStatement()
         {
-            if (IsCurrentToken(TokenType.Set))
-                new VariableAssignment().Parse(this);
-            if (IsCurrentToken(TokenType.Printout))
-                new PrintoutKeyword().Parse(this);
-            if (IsCurrentToken(TokenType.If))
-                new IfKeyword().Parse(this);
-            if (IsCurrentToken(TokenType.While))
-                new WhileKeyword().Parse(this);
-            if (IsCurrentToken(TokenType.Goto))
-                new GotoKeyword().Parse(this);
-            if (IsCurrentToken(TokenType.Label))
-                new LabelKeyword().Parse(this);
-            if (IsCurrentToken(TokenType.Input))
-                new InputKeyword().Parse(this);
-            if (IsCurrentToken(TokenType.EndOfFile))
-                return;
-            if (IsCurrentToken(TokenType.NewLine))
-                ParseNewLine();
-            else
-                return;
-                
+            switch (CurrentToken.Type)
+            {
+                case TokenType.Set:
+                    new VariableAssignment().Parse(this);
+                    break;
 
+                case TokenType.Printout:
+                    new PrintoutKeyword().Parse(this);
+                    break;
+
+                case TokenType.If:
+                    new IfKeyword().Parse(this);
+                    break;
+
+                case TokenType.While:
+                    new WhileKeyword().Parse(this);
+                    break;
+
+                case TokenType.Goto:
+                    new GotoKeyword().Parse(this);
+                    break;
+
+                case TokenType.Label:
+                    new LabelKeyword().Parse(this);
+                    break;
+
+                case TokenType.Input:
+                    new InputKeyword().Parse(this);
+                    break;
+
+                case TokenType.NewLine:
+                    ParseNewLine();
+                    break;
+
+                case TokenType.EndOfFile:
+                    break;
+
+                default:
+                    throw new CodeParserException("An unexpected token was being parsed: " + CurrentToken.Text + " of token type " + CurrentToken.Type.ToString());
+            }
         }
 
         public void ParseComparison()
@@ -194,15 +227,13 @@ namespace Arpelle.CodeParser
 
         public void ParseNewLine()
         {
-            if(IsCurrentToken(TokenType.EndOfFile))
+            if (IsCurrentToken(TokenType.EndOfFile))
                 return;
-                
+
             MatchToken(TokenType.NewLine);
 
             while (IsCurrentToken(TokenType.NewLine))
                 GetNextToken();
         }
-
-
     }
 }

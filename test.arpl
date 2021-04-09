@@ -3,15 +3,17 @@ Set b As Number = 1
 Set hello As String = "Hello World"
 Set flag As Boolean = True
 
-If flag == True Do
+If flag == True Then
     Printout hello
     Set a = 1
     Set b = 2
     Input hello
-EndIf
+Else
+    Printout "Not Hello World!"
+End
 
 While flag == True Repeat
     Printout hello
     Printout a
     Printout b
-EndWhile
+End

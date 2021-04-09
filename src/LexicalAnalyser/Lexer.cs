@@ -1,3 +1,9 @@
+/*
+    Arpelle
+    Copyright (c) 2021 Joshua Thompson-Lindley. All rights reserved.
+    Licensed under the MIT License. See LICENSE file in the project root for full license information.
+*/
+
 using System;
 using Arpelle.Tokens;
 using Arpelle.CompilerExceptions;
@@ -10,6 +16,9 @@ namespace Arpelle.LexicalAnalyser
         private char CurrentCharacter = ' ';
         private int CurrentCharacterPosition = -1;
 
+        public int CurrentLineNumber = 0;
+        public int CurrentLinePosition = 0;
+
         public Lexer(string SourceCode)
         {
             this.SourceCode = SourceCode;
@@ -19,6 +28,7 @@ namespace Arpelle.LexicalAnalyser
         private void MoveNextCharacter()
         {
             CurrentCharacterPosition += 1;
+            CurrentLinePosition += 1;
 
             if (CurrentCharacterPosition >= SourceCode.Length)
                 CurrentCharacter = '\0';
@@ -44,8 +54,13 @@ namespace Arpelle.LexicalAnalyser
                 MoveNextCharacter();
 
             if (CurrentCharacter == '#')
+            {
                 while (CurrentCharacter != '\n')
                     MoveNextCharacter();
+
+                CurrentLineNumber += 1;
+                CurrentLinePosition = 0;
+            }
 
             switch (CurrentCharacter)
             {
@@ -94,6 +109,8 @@ namespace Arpelle.LexicalAnalyser
                     break;
                 case '\n':
                     NextToken = new Token("\n", TokenType.NewLine);
+                    CurrentLineNumber += 1;
+                    CurrentLinePosition = 0;
                     break;
                 case '\0':
                     NextToken = new Token("\0", TokenType.EndOfFile);
@@ -133,13 +150,14 @@ namespace Arpelle.LexicalAnalyser
 
                         while (Char.IsLetterOrDigit(GetNextCharacterAhead()))
                             MoveNextCharacter();
-                            
-                        if(GetNextCharacterAhead() != '\n')
+
+                        if (GetNextCharacterAhead() != '\n')
                         {
                             MoveNextCharacter();
                             Substring = SourceCode[SubstringStart..CurrentCharacterPosition];
-                        } else {
-                            // If the newline is the next character, it'll break the parsers, so we hack it a little bit.
+                        }
+                        else
+                        {
                             int PaddingCharacterPosition = CurrentCharacterPosition + 1;
                             Substring = SourceCode[SubstringStart..PaddingCharacterPosition];
                         }
@@ -149,9 +167,15 @@ namespace Arpelle.LexicalAnalyser
                     }
                     else
                     {
-                        throw new CodeLexingException("This is an invalid token: " + CurrentCharacter);
+                        throw new CodeLexingException("This is an invalid token " + CurrentCharacter);
                     }
                     break;
+            }
+
+            if (GetNextCharacterAhead() == '\n')
+            {
+                CurrentLinePosition = 0;
+                CurrentLineNumber += 1;
             }
 
             MoveNextCharacter();

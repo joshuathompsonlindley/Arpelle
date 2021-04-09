@@ -1,4 +1,9 @@
-using System;
+/*
+    Arpelle
+    Copyright (c) 2021 Joshua Thompson-Lindley. All rights reserved.
+    Licensed under the MIT License. See LICENSE file in the project root for full license information.
+*/
+
 using System.IO;
 using System.Text;
 
@@ -10,7 +15,7 @@ namespace Arpelle.CodeEmitter
         public string HeaderCode { get; set; }
         public string Code { get; set; }
 
-        public Emitter(string OutputPath = @"arplc_output.cpp")
+        public Emitter(string OutputPath)
         {
             this.OutputPath = OutputPath;
         }
