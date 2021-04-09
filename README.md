@@ -4,7 +4,17 @@ Toy compiler and scripting language that is very much a work in progress. It pro
 Based off the TeenyTinyCompiler by @AZHenley, built in .NET 5 and C# instead of Python.
 
 ### Installation and Usage
-All you need is .NET 5 (SDK) and run dotnet build in the
+I'll add binaries to the Release tab when I feel the project is far enough along to be considered "stable".
+
+All you need is .NET 5 (SDK) and to run `dotnet build` in the root folder. The built file will be in the `bin/Debug/net5.0` folder.
+
+Command Line Usage:
+When output is not given, it'll default to `arplc_output` in the current directory.
+
+	arplc <input> [output]
+
+When output is not given, it'll default to `arplc_output` in the current directory.
+
 
 ### Language
 The language is BASIC like, kinda Python like.
@@ -18,7 +28,11 @@ Here's an incredibly simply program I use to test the features I've implemented 
     
     If flag == True Then
         Printout hello
-        Set hello = "Hello World Again!"
+        Set a = 1
+        Set b = 2
+        Input hello
+    Else
+        Printout "Not Hello World!"
     End
     
     While flag == True Repeat
